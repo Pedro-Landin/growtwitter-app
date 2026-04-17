@@ -1,6 +1,27 @@
+import { useState } from "react";
+import AuthService from "../../services/auth"; 
 import { ContainerLogin, LoginCard, LoginCardLeft, LoginCardRight } from "./styles";
 
 export default function Login() {
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+
+
+    async function handleLogin(event: React.FormEvent) {
+        event.preventDefault();
+        
+        console.log("Tentando logar com:", { username, password });
+
+        const response = await AuthService.login({ username, password });
+
+        console.log("Resposta da API:", response);
+        
+        if (response.ok) {
+            console.log("Login realizado com sucesso!", response.data);
+        } else {
+            console.log("Falha no login:", response.message);
+        }
+    }
 
     return (
         <ContainerLogin>
@@ -13,17 +34,29 @@ export default function Login() {
 
                 <LoginCardRight>
                     <h2>Entrar no GrowTwitter</h2>
-                    <form>
+                    <form onSubmit={handleLogin}>
                         <div>
-                            <label htmlFor="email">Email</label>
-                            <input type="email" id="email" name="email" />
+                            <label htmlFor="username">username</label>
+                            <input 
+                                type="text" 
+                                id="username" 
+                                name="username" 
+                                value={username} 
+                                onChange={(event) => setUsername(event.target.value)} 
+                            />
                         </div>
 
                         <div>
                             <label htmlFor="password">Senha</label>
-                            <input type="password" id="password" name="password" />
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                value={password} 
+                                onChange={(event) => setPassword(event.target.value)} 
+                            />
                         </div>
-                        
+
                         <div>
                             <button type="submit">Entrar</button>
                         </div>
