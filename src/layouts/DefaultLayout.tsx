@@ -1,6 +1,11 @@
 import { Outlet, Navigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
+
 import Header from "../components/Header";
+import SidebarLeft from "../components/SidebarLeft";
+import SidebarRight from "../components/SidebarRight";
+
+import { ContainerDefaultLayout } from "./styles";
 
 export function DefaultLayout() {
     const { isAuthenticated, loading } = useAuth();
@@ -19,9 +24,13 @@ export function DefaultLayout() {
     return (
         <>
             <Header />
-            <h1>Sidebar</h1>
-            <Outlet />
-            <h1>Right</h1>
+            <ContainerDefaultLayout>
+                <SidebarLeft />
+
+                <Outlet />
+
+                <SidebarRight />
+            </ContainerDefaultLayout>
         </>
     )
 }

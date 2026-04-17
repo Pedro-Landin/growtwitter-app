@@ -1,5 +1,5 @@
 import { useTheme } from "../../hooks/useTheme";
-import { ContainerHeader } from "./styles";
+import { ButtonAlteredTheme, ContainerHeader } from "./styles";
 
 export default function Header() {
 
@@ -9,7 +9,7 @@ export default function Header() {
         <ContainerHeader>
             <h1>GrowTwitter</h1>
 
-            <button onClick={toggleTheme}> Alternar tema </button>
+            <ButtonAlteredTheme onClick={toggleTheme}> Alternar tema </ButtonAlteredTheme>
         </ContainerHeader>
     );
 }

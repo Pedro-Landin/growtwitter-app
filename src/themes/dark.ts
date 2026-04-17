@@ -1,10 +1,8 @@
 export const dark = {
     colors: {
-        primary: '#fff',
+        primary: '#1d9bf0',
         secondary: '#2c2c38',
-        backgrounColor: '#121212',
-        textColor: '#e0e0e0',
-        title: '#fff',
-        border: '#444'
+        backgrounColor: '#0B0707',
+        textColor: '#fff'
     }
 }

@@ -8,3 +8,12 @@ export const ContainerHeader = styled.header`
     color: ${props => props.theme.colors.textColor};
     padding: 10px 20px;
 `;
+
+export const ButtonAlteredTheme = styled.button`
+    background-color: ${props => props.theme.colors.secondary};
+    color: ${props => props.theme.colors.textColor};
+    cursor: pointer;
+    padding: 7px 15px;
+    border-radius: 15px;
+    font-size: 14px;
+`;
