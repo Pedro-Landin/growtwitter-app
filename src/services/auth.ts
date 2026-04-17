@@ -1,7 +1,8 @@
 import { api } from "./api";
-// Importando as interfaces que definimos no arquivo de types
+// importando tipos
 import type { LoginCredentials, LoginResponse } from "../types/auth"; 
 
+// criando interface de retorno
 export interface AuthResult extends Partial<LoginResponse> {
     ok: boolean;
 }

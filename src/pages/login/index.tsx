@@ -1,26 +1,43 @@
 import { useState } from "react";
+import { useNavigate } from "react-router"; 
+import { useAuth } from "../../hooks/useAuth"; 
 import AuthService from "../../services/auth"; 
 import { ContainerLogin, LoginCard, LoginCardLeft, LoginCardRight } from "./styles";
 
 export default function Login() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false) // Loading local do botão
 
+    const { signIn } = useAuth(); // Função do contexto Auth
+    const navigate = useNavigate();
 
     async function handleLogin(event: React.FormEvent) {
         event.preventDefault();
         
-        console.log("Tentando logar com:", { username, password });
+        if (!username || !password) {
+            alert("Por favor, preencha todos os campos.");
+            return;
+        }
+
+        setLoading(true);
 
         const response = await AuthService.login({ username, password });
 
-        console.log("Resposta da API:", response);
-        
-        if (response.ok) {
-            console.log("Login realizado com sucesso!", response.data);
+        if (response.ok && response.data) {
+
+            console.log('response.data', response.data);
+            // 1. Avisa o contexto que o usuário logou (salva no state e localStorage)
+            signIn(response.data.authUser, response.data.authToken);
+            
+            // 2. Redireciona para a Home
+            navigate('/'); 
         } else {
-            console.log("Falha no login:", response.message);
+            // 3. Exibe o erro caso a senha esteja errada ou usuário não exista
+            alert(response.message || "Falha ao realizar login");
         }
+
+        setLoading(false);
     }
 
     return (
@@ -58,7 +75,10 @@ export default function Login() {
                         </div>
 
                         <div>
-                            <button type="submit">Entrar</button>
+                            {/* Desabilita o botão enquanto carrega */}
+                            <button type="submit" disabled={loading}>
+                                {loading ? 'Carregando...' : 'Entrar'}
+                            </button>
                         </div>
                     </form>
                 </LoginCardRight>
