@@ -22,7 +22,7 @@ export default createGlobalStyle`
     min-height: 100vh;
     line-height: 1.5;
     text-rendering: optimizeSpeed;
-    font-family: sans-serif;
+    font-family: 'Karla', sans-serif;
   }
 
   /* Remove estilos padrão de listas */

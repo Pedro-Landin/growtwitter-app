@@ -1,11 +1,12 @@
 import { createBrowserRouter } from "react-router";
 import { DefaultLayout } from "../layouts/DefaultLayout";
 import { Feed } from "../pages/Feed";
+import Login from "../pages/login";
 
 export const routes = createBrowserRouter([
     {
         path: '/login',
-        element: <h1>Home</h1>
+        element: <Login />
     },
     {
         path: '/',
