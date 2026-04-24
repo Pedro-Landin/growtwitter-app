@@ -24,7 +24,7 @@ export default function Explorar() {
                     <p>Esportes</p>
                     <strong>Assunto sobre esportes</strong>
                 </BlockNews>
-                <br />
+       
                 <BlockNews>
                     <p>Esportes - Há 45 min</p>
                     <strong>Assunto sobre esportes</strong>

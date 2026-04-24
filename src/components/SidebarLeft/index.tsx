@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { useTheme } from "../../hooks/useTheme";
+
+// Icons Logo
 import logo from '../../assets/logo.png'
 import icon from '../../assets/icon.png'
-
 // Icons Explorar
 import icon_Explorar_Dark from '../../assets/icon_Explorar_Dark.png'
 import icon_Explorar_Light from '../../assets/icon_Explorar_Light.png'
@@ -14,8 +16,11 @@ import icon_Perfil_Dark from '../../assets/icon_Perfil_Dark.png'
 import icon_Perfil_Light from '../../assets/icon_Perfil_Light.png'
 
 import { BlockMenu, ContainerSidebarLeft, LinkMenu, ButtonTweet, CardUser, CardUserInfo } from "./styles";
+import { ModalTweet } from "../ModalTweet";
 
 export default function SidebarLeft() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     const { user } = useAuth();
     const { theme } = useTheme();
 
@@ -60,9 +65,14 @@ export default function SidebarLeft() {
                 </LinkMenu>
             </BlockMenu>
 
-            <ButtonTweet>Tweetar</ButtonTweet>
+            <ButtonTweet onClick={() => setIsModalOpen(true)}>
+                Tweetar
+            </ButtonTweet>
 
-            {/* Card do Usuário Logado */}
+            {isModalOpen && (
+                <ModalTweet onClose={() => setIsModalOpen(false)} />
+            )}
+
             <CardUser>
                 <div className="avatar">
                     <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#E0E0E0', display: 'flex', justifyContent: 'center', alignItems: 'center' }} >

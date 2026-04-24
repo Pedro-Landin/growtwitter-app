@@ -28,7 +28,26 @@ const TweetService = {
             }
         });
         return response.data;
+    },
+
+    createTweet: async (content: string) => {
+    try {
+        const token = localStorage.getItem("@GrowTwitter:token");
+        
+        const response = await api.post('/tweets', { 
+            content 
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao criar tweet", error);
+        return { success: false, message: "Não foi possível publicar seu tweet." };
     }
+}
 };
 
 export default TweetService;
