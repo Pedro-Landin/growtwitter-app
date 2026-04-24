@@ -3,6 +3,7 @@ export interface AuthUser {
     id: string;
     name: string;
     username: string;
+    imageUrl?: string;
 }
 
 // Representa a estrutura completa da resposta de login bem-sucedido

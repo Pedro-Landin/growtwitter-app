@@ -27,7 +27,7 @@ export function Feed() {
   }, []);
 
   if (loading) {
-    return <h2>Carregando tweets...</h2>;
+    return <ContainerFeed><h2>Carregando tweets...</h2></ContainerFeed>
   }
 
   return (
