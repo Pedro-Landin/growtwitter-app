@@ -3,6 +3,7 @@ import { DefaultLayout } from "../layouts/DefaultLayout";
 import { Feed } from "../pages/Feed";
 import Login from "../pages/login";
 import { Perfil } from "../pages/Perfil";
+import Explorar from "../pages/Explorar";
 
 export const routes = createBrowserRouter([
     {
@@ -19,7 +20,7 @@ export const routes = createBrowserRouter([
             },
             {
                 path: 'explore',
-                element: <Perfil />
+                element: <Explorar />
             },
             {
                 path: 'profile',
