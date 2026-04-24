@@ -15,17 +15,27 @@ import {
 import arrowBack from '../../assets/arrow_back.png'
 import image_perfil from '../../assets/image_perfil.png'
 
+import { useParams } from "react-router";
+
 export function Perfil() {
-    const { user } = useAuth();
+    const { userId } = useParams();
+    const { user: loggedUser } = useAuth();
     const navigate = useNavigate();
 
     const [myTweets, setMyTweets] = useState<Tweet[]>([]);
     const [loading, setLoading] = useState(true);
 
+    // Verifica qual o ID do usuário que eu quero carregar'
+    // Se for o ID do usuário logado, carrega os tweets dele
+    const idToLoad = userId || loggedUser?.id;
+
+    // Verifica qual o nome do usuário que eu quero carregar
+    const profileOwner = myTweets.length > 0 ? myTweets[0].author : (idToLoad === loggedUser?.id ? loggedUser : null);
+
     async function loadProfileData() {
-        if (user?.id) {
+        if (idToLoad) {
             try {
-                const response = await TweetService.getUserTweets(user.id);
+                const response = await TweetService.getUserTweets(idToLoad);
                 if (response.success) {
                     setMyTweets(response.data);
                 }
@@ -39,7 +49,7 @@ export function Perfil() {
 
     useEffect(() => {
         loadProfileData();
-    }, [user?.id]);
+    }, [idToLoad]);
 
     return (
         <ContainerPerfil>
@@ -49,18 +59,18 @@ export function Perfil() {
                 </button>
 
                 <div>
-                    <h3>Perfil de @{user?.username}</h3>
+                    <h3>Perfil de @{profileOwner ?.username}</h3>
                     <p>{myTweets.length} tweets</p>
                 </div>
             </PerfilHeader>
 
             <PerfilBanner>
-                <img src={user?.imageUrl || image_perfil} alt={user?.name} />
+                <img src={profileOwner ?.imageUrl || image_perfil} alt={profileOwner ?.name} />
             </PerfilBanner>
 
             <PerfilInfo>
-                <strong>{user?.name}</strong>
-                <span>@{user?.username}</span>
+                <strong>{profileOwner?.name}</strong>
+                <span>@{profileOwner ?.username}</span>
             </PerfilInfo>
 
             <PerfilTweets>

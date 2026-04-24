@@ -44,6 +44,10 @@ export const PerfilBanner = styled.div`
   img {
     position: absolute;
     bottom: -45px;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background-color: #fff;
   }
 `;
 
@@ -61,7 +65,7 @@ export const PerfilInfo = styled.div`
     color: ${(props) => props.theme.colors.textColor};
   }
 
-  span{
+  span {
     font-size: 10px;
     font-weight: 400;
     color: ${(props) => props.theme.colors.textColor};
