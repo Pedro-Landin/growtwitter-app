@@ -1,25 +1,56 @@
-import { useNavigate } from "react-router"; // ou 'react-router-dom'
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
-import { ContainerPerfil, PerfilBanner, PerfilHeader, PerfilInfo, PerfilTweets } from "./styles";
+import { TweetCard } from "../../components/TweetCard";
+import TweetService from "../../services/tweet";
+import type { Tweet } from "../../types/tweet";
+import { 
+    ContainerPerfil, 
+    PerfilBanner, 
+    PerfilHeader, 
+    PerfilInfo, 
+    PerfilTweets 
+} from "./styles";
 
 import arrowBack from '../../assets/arrow_back.png'
 import image_perfil from '../../assets/image_perfil.png'
 
 export function Perfil() {
     const { user } = useAuth();
-    const navigate = useNavigate(); // Inicializa o hook
+    const navigate = useNavigate();
+    
+    const [myTweets, setMyTweets] = useState<Tweet[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function loadProfileData() {
+            if (user?.id) {
+                try {
+                    const response = await TweetService.getUserTweets(user.id);
+                    if (response.success) {
+                        setMyTweets(response.data);
+                    }
+                } catch (error) {
+                    console.error("Erro ao carregar perfil", error);
+                } finally {
+                    setLoading(false);
+                }
+            }
+        }
+
+        loadProfileData();
+    }, [user?.id]);
 
     return (
         <ContainerPerfil>
             <PerfilHeader>
-                {/* Botão de voltar */}
                 <button onClick={() => navigate(-1)} style={{ cursor: 'pointer', border: 'none', background: 'none' }}>
                   <img src={arrowBack} alt="Voltar" />
                 </button>
                 
                 <div>
                     <h3>Perfil de @{user?.username}</h3>
-                    <p>7 tweets</p>
+                    <p>{myTweets.length} tweets</p>
                 </div>
             </PerfilHeader>
 
@@ -33,7 +64,17 @@ export function Perfil() {
             </PerfilInfo>
 
             <PerfilTweets>
-                <div>Tweet Card</div>
+                {loading ? (
+                    <p style={{ padding: '20px', textAlign: 'center' }}>Carregando seus tweets...</p>
+                ) : (
+                    myTweets.length > 0 ? (
+                        myTweets.map((tweet) => (
+                            <TweetCard key={tweet.id} tweet={tweet} />
+                        ))
+                    ) : (
+                        <p style={{ padding: '20px', textAlign: 'center' }}>Você ainda não possui tweets.</p>
+                    )
+                )}
             </PerfilTweets>
         </ContainerPerfil>
     );

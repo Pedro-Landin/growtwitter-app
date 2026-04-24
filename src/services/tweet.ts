@@ -17,6 +17,17 @@ const TweetService = {
             }
         });
         return response.data;
+    },
+
+    getUserTweets: async (userId: string) => {
+        const token = localStorage.getItem("@GrowTwitter:token");
+        
+        const response = await api.get<FeedResponse>(`/users/${userId}/tweets`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response.data;
     }
 };
 

@@ -3,12 +3,14 @@ import styled from 'styled-components';
 export const ContainerTweetCard = styled.div`
     display: flex;
     align-items: center;
-    border-top: 1px solid ${props => props.theme.colors.border};
+    border-bottom: 1px solid ${props => props.theme.colors.border};
     padding: 10px;
+    width: 100%;
 
     img {
         width: 37px;
         height: 37px;
+        border-radius: 50%;
     }
 `;
 
@@ -45,5 +47,6 @@ export const TweetLinkReplie = styled.div`
         width: 13px;
         height: 13px;
         margin-right: 4px;
+        border-radius: 0;
     }
 `;
