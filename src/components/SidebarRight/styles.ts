@@ -10,6 +10,7 @@ export const ContainerSidebarRight = styled.div`
     padding: 16px;
     gap: 10px;
     align-items: flex-start;
+    margin-top: 16px;
 
     h3{
         font-size: 14px;

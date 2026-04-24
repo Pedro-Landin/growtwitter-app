@@ -7,7 +7,7 @@ declare module "styled-components" {
             secondary: string
             backgrounColor: string
             textColor: string
-            title: string
+            textColorTweet: string
             border: string
         }
     }

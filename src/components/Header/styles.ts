@@ -7,6 +7,7 @@ export const ContainerHeader = styled.header`
     background-color: ${props => props.theme.colors.backgrounColor};
     color: ${props => props.theme.colors.textColor};
     padding: 10px 20px;
+     border-bottom: 0.8px solid ${props => props.theme.colors.border};
 `;
 
 export const ButtonAlteredTheme = styled.button`

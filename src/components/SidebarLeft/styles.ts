@@ -7,6 +7,7 @@ export const ContainerSidebarLeft = styled.div`
     height: 100%;
     gap: 15px;
     align-items: flex-start;
+    padding-top: 16px;
 `;
 
 export const BlockMenu = styled.div`

@@ -4,6 +4,7 @@ export const dark = {
         secondary: '#2c2c38',
         backgrounColor: '#0B0707',
         textColor: '#fff',
+        textColorTweet: '#f2f2f2',
         border: '#fff'
     }
 }
