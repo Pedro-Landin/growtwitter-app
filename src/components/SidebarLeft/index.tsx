@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
 import { useTheme } from "../../hooks/useTheme";
 
@@ -15,14 +16,24 @@ import icon_Paginainicial_Light from '../../assets/icon_Paginainicial_Light.png'
 import icon_Perfil_Dark from '../../assets/icon_Perfil_Dark.png'
 import icon_Perfil_Light from '../../assets/icon_Perfil_Light.png'
 
-import { BlockMenu, ContainerSidebarLeft, LinkMenu, ButtonTweet, CardUser, CardUserInfo } from "./styles";
+import { BlockMenu, ContainerSidebarLeft, LinkMenu, ButtonTweet, CardUser, CardUserInfo, ButtonSair } from "./styles";
 import { ModalTweet } from "../ModalTweet";
 
 export default function SidebarLeft() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const { user } = useAuth();
+    const { user, signOut } = useAuth();
     const { theme } = useTheme();
+    const navigate = useNavigate();
+
+    function handleLogout() {
+        const confirmLogout = window.confirm("Deseja realmente sair da sua conta?");
+
+        if (confirmLogout) {
+            signOut();
+            navigate("/login"); // Redireciona para a tela de login após sair
+        }
+    }
 
     return (
         <ContainerSidebarLeft>
@@ -82,6 +93,12 @@ export default function SidebarLeft() {
                 <CardUserInfo>
                     <strong>{user?.name}</strong>
                     <span>@{user?.username}</span>
+
+                    <ButtonSair
+                        onClick={handleLogout}
+                    >
+                        Sair
+                    </ButtonSair>
                 </CardUserInfo>
             </CardUser>
         </ContainerSidebarLeft>

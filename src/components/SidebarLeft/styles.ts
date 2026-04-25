@@ -66,3 +66,20 @@ export const CardUserInfo = styled.div`
         font-size: 12px;
     }
 `;
+
+export const ButtonSair = styled.button`
+    background-color: transparent;
+    color: ${props => props.theme.colors.primary};
+    cursor: pointer;
+    padding: 3px 15px;
+    margin-top: 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    border: 1px solid ${props => props.theme.colors.primary};
+
+    &:hover {
+        background-color: red;
+        color: #fff;
+        border: 1px solid red;
+    }
+`;
