@@ -68,6 +68,34 @@ const TweetService = {
       return { success: false };
     }
   },
+  likeTweet: async (tweetId: string) => {
+    try {
+      const token = localStorage.getItem("@GrowTwitter:token");
+      const response = await api.post(
+        "/likes",
+        { tweetId },
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao dar like", error);
+      return { success: false };
+    }
+  },
+
+  userUnLike: async (tweetId: string) => {
+    try {
+      const token = localStorage.getItem("@GrowTwitter:token");
+      const response = await api.delete("/likes", {
+        data: { tweetId },
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao remover like", error);
+      return { success: false };
+    }
+  },
 };
 
 export default TweetService;

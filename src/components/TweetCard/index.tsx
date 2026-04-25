@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import TweetService from "../../services/tweet";
 import type { Tweet } from "../../types/tweet";
@@ -7,6 +8,7 @@ import { ContainerTweetCard, InfoTweetCard, TweetCardRow, TweetLinkReplie } from
 import icon_Like from '../../assets/icon_Like.png'
 import icon_Replie from '../../assets/icon_Replie.png'
 import icon_Delete from '../../assets/icon_delete.png'
+import icon_curtir_selecionado from '../../assets/icone_curtir_selecionado.svg'
 
 import { useNavigate } from "react-router";
 
@@ -18,6 +20,16 @@ interface TweetCardProps {
 export function TweetCard({ tweet, onDeleteSuccess }: TweetCardProps) {
     const navigate = useNavigate();
     const { user } = useAuth();
+
+    // Lógica para verificar se o tweet foi curtido
+    const [isLiked, setIsLiked] = useState(() => {
+        if (!user?.id || !tweet.likes || !Array.isArray(tweet.likes)) return false;
+        return tweet.likes.some((like: any) => like.author?.id === user.id);
+    });
+
+    const [likesCount, setLikesCount] = useState(
+        Array.isArray(tweet.likes) ? tweet.likes.length : tweet.likes
+    );
 
     // Verifica se o tweet pertence ao usuário logado
     const isMyTweet = tweet.author.id === user?.id;
@@ -38,6 +50,32 @@ export function TweetCard({ tweet, onDeleteSuccess }: TweetCardProps) {
         }
     }
 
+    async function handleLikeToggle() {
+        if (!user?.id) return alert("Faça login para interagir!");
+
+        try {
+            if (isLiked) {
+                // Se já está curtido, remove o like
+                const response = await TweetService.userUnLike(tweet.id);
+
+                if (response) {
+                    setIsLiked(false);
+                    setLikesCount(prev => prev - 1);
+                }
+
+            } else {
+                // Se não está curtido, adiciona o like
+                const response = await TweetService.likeTweet(tweet.id);
+                if (response.success) {
+                    setIsLiked(true);
+                    setLikesCount(prev => prev + 1);
+                }
+            }
+        } catch (error) {
+            console.error("Erro na interação de like:", error);
+        }
+    }
+
     return (
         <ContainerTweetCard>
             <img onClick={handleGoToProfile} style={{ cursor: 'pointer' }} src={tweet.author.imageUrl} alt={tweet.author.name} />
@@ -45,7 +83,7 @@ export function TweetCard({ tweet, onDeleteSuccess }: TweetCardProps) {
             <InfoTweetCard>
                 <TweetCardRow>
                     <strong onClick={handleGoToProfile} style={{ cursor: 'pointer' }}>{tweet.author.name}</strong>
-                    <span  className="username">@{tweet.author.username}</span>
+                    <span className="username">@{tweet.author.username}</span>
                     <span className="dot">•</span>
                     <span className="time">{formatDate(tweet.createdAt)}</span>
                 </TweetCardRow>
@@ -58,9 +96,22 @@ export function TweetCard({ tweet, onDeleteSuccess }: TweetCardProps) {
                         <span>{tweet.replies.length}</span>
                     </TweetLinkReplie>
 
-                    <TweetLinkReplie>
-                        <img src={icon_Like} alt="Likes" />
-                        <span>{Array.isArray(tweet.likes) ? tweet.likes.length : tweet.likes}</span>
+                    <TweetLinkReplie onClick={handleLikeToggle} style={{ cursor: 'pointer' }}>
+
+                        {
+                            isLiked ? (
+                                <img src={icon_curtir_selecionado} alt="Likes" />
+                            ) : (
+                                <img src={icon_Like} alt="Likes" />
+                            )
+                        }
+
+                        <span style={{
+                            color: isLiked ? '#ed1c24' : 'inherit',
+                            fontWeight: isLiked ? 'bold' : 'normal'
+                        }}>
+                            {likesCount}
+                        </span>
                     </TweetLinkReplie>
 
                     {/* Renderização Condicional da Lixeira */}
