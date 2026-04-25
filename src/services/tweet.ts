@@ -96,6 +96,16 @@ const TweetService = {
       return { success: false };
     }
   },
+
+  createReply: async (content: string, replyTo: string) => {
+    const token = localStorage.getItem("@GrowTwitter:token");
+    const response = await api.post(
+      "/replies",
+      { content, replyTo },
+      { headers: { Authorization: `Bearer ${token}` } },
+    );
+    return response.data;
+  },
 };
 
 export default TweetService;

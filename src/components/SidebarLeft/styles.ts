@@ -1,7 +1,7 @@
 import { NavLink } from "react-router";
 import styled from 'styled-components';
 
-export const ContainerSidebarLeft = styled.div`
+export const ContainerSidebarLeft = styled.nav`
     display: flex;
     flex-direction: column;
     height: 100%;

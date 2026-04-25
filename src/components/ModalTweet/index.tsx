@@ -4,9 +4,10 @@ import { Overlay, ModalContainer, CloseButton, FooterModal, ButtonTweetar } from
 
 interface ModalTweetProps {
     onClose: () => void;
+    replyTo?: string;
 }
 
-export function ModalTweet({ onClose }: ModalTweetProps) {
+export function ModalTweet({ onClose, replyTo }: ModalTweetProps) {
     const [content, setContent] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -17,14 +18,29 @@ export function ModalTweet({ onClose }: ModalTweetProps) {
         if (!content.trim()) return;
         setLoading(true);
 
-        const response = await TweetService.createTweet(content);
-        if (response.success) {
-            setContent("");
-            onClose();
-            window.location.reload(); // Solução simples para atualizar o feed
+        try {
+            let response;
+
+            if (replyTo) {
+                // Lógica de Resposta(Reply)
+                response = await TweetService.createReply(content, replyTo);
+            } else {
+                // Lógica de Tweet Normal
+                response = await TweetService.createTweet(content);
+            }
+
+            if (response.success) {
+                setContent("");
+                onClose();
+                window.location.reload();
+            }
+        } catch (error) {
+            console.error("Erro ao postar:", error);
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     }
+
 
     return (
         <Overlay onClick={onClose}>
@@ -32,7 +48,7 @@ export function ModalTweet({ onClose }: ModalTweetProps) {
                 <CloseButton onClick={onClose}>&times;</CloseButton>
 
                 <textarea
-                    placeholder="O que está acontecendo?"
+                    placeholder={replyTo ? "Postar sua resposta" : "O que está acontecendo?"}
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     autoFocus
@@ -40,14 +56,15 @@ export function ModalTweet({ onClose }: ModalTweetProps) {
 
                 <FooterModal>
                     <ButtonTweetar
-                        isActive={isButtonActive} // Passando a prop para o styled component
+                        isActive={isButtonActive}
                         onClick={handlePost}
                         disabled={!isButtonActive}
                     >
-                        {loading ? "Postando..." : "Tweetar"}
+                        {loading ? "Enviando..." : (replyTo ? "Responder" : "Tweetar")}
                     </ButtonTweetar>
                 </FooterModal>
             </ModalContainer>
         </Overlay>
     );
+
 }

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ContainerSidebarRight = styled.div`
+export const ContainerSidebarRight = styled.aside`
     display: flex;
     flex-direction: column;
     background-color: #E9E9E9;

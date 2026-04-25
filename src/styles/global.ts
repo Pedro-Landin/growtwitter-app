@@ -23,6 +23,7 @@ export default createGlobalStyle`
     line-height: 1.5;
     text-rendering: optimizeSpeed;
     font-family: 'Karla', sans-serif;
+    background-color: ${(props) => props.theme.colors.backgrounColor};
   }
 
   /* Remove estilos padrão de listas */

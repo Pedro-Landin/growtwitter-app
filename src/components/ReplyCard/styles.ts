@@ -1,12 +1,11 @@
 import styled from "styled-components";
 
-export const ContainerTweetCard = styled.div`
+export const ContainerReplyCard = styled.div`
   display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  border-bottom: 1px solid ${(props) => props.theme.colors.border};
-  padding: 10px;
+  align-items: center;
   width: 100%;
+  padding-top: 30px;
+  position: relative;
 
   img {
     width: 37px;
@@ -14,6 +13,17 @@ export const ContainerTweetCard = styled.div`
     border-radius: 50%;
     background-color: #fff;
     z-index: 2;
+  }
+
+  &::before {
+    content: "";
+    height: calc(100% + 24px);
+    width: 1.5px;
+    background-color: rgb(204, 204, 204);
+    position: absolute;
+    top: -53px;
+    left: 18px;
+    z-index: 1;
   }
 `;
 
