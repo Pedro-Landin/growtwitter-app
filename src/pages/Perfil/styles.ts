@@ -78,3 +78,13 @@ export const PerfilTweets = styled.section`
   align-items: flex-start;
   justify-content: center;
 `;
+
+export const PerfilButton = styled.button`
+  background-color: ${(props) => props.theme.colors.primary};
+  color: #fff;
+  cursor: pointer;
+  padding: 5px 15px;
+  border-radius: 15px;
+  font-size: 12px;
+  margin: 10px;
+`;
