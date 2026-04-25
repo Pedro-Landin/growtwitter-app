@@ -5,6 +5,13 @@ export const ContainerPerfil = styled.main`
 
   border-left: 0.8px solid ${(props) => props.theme.colors.border};
   border-right: 0.8px solid ${(props) => props.theme.colors.border};
+
+  @media (max-width: 768px) {
+    border-left: none;
+    border-right: none;
+    width: 100%;
+    min-width: 100%;
+  }
 `;
 
 export const PerfilHeader = styled.div`
